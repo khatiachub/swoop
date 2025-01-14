@@ -1,0 +1,20 @@
+<div class="home-main-wrapper">
+    <div class="icons">
+        <i class="fa-solid fa-clapperboard icon"></i>
+        <i class="fa-solid fa-bed icon"></i>
+        <i class="fa-solid fa-champagne-glasses icon"></i>
+        <i class="fa-solid fa-burger icon"></i>
+        <i class="fa-regular fa-face-grin-stars icon"></i>
+        <i class="fa-solid fa-dumbbell icon"></i>
+        <i class="fa-solid fa-hospital-user icon"></i>
+        <i class="fa-solid fa-hand-holding-heart icon"></i>
+        <i class="fa-solid fa-paw icon"></i>
+    </div>
+    <div class="categories-box">
+        <div (click)="getCategory(category.categoryName,category.id)" class="category-cell"  *ngFor="let category of categories">
+            <div class="category-text">
+                {{category.categoryName}}
+            </div>
+        </div>
+    </div>
+</div>

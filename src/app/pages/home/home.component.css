@@ -1,0 +1,31 @@
+.categories-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.home-main-wrapper{
+    width: 95%;
+    margin: 0 auto;
+    
+}
+.icons{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.icon{
+    width: 110px;
+    text-align: center;
+    font-size: 25px;
+    color: rgb(99, 93, 93);
+}
+.category-cell{
+    width: 110px;
+    text-align: center;
+    cursor: pointer;
+}
+.category-text{
+    font-size: 20px;
+    color: rgb(99, 93, 93);
+}

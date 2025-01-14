@@ -1,0 +1,35 @@
+<div class="main-wrapper">
+    <div class="filters-wrapper">
+        <p>{{childname}}</p>
+        
+
+        <p style="margin-top: 30px;">მდებარეობა</p>
+
+        <div *ngFor="let loc of locations" class="flex items-center">
+            <p-checkbox
+              [inputId]="loc.id"
+              name="group"
+              [value]="loc"
+              [(ngModel)]="selectedLocations" 
+              (onChange)="onLocationChange(loc, selectedLocations)"
+            ></p-checkbox>
+            <label [for]="loc.id" class="ml-2"> {{ loc.location }} </label>
+          </div>
+    </div>
+    
+
+    <div class="prod-wrapper">
+        <p>{{category}}</p>
+        <div class="products-wrapper">
+            <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
+              <div>
+                <img class="image" [src]="url + item.image" alt="Product Image">
+                <p>{{ item.sec_child_name }}</p>
+                <p>{{ item.description }}</p>
+                <p>{{ item.price }}</p>
+              </div>
+            </div>
+          </div>          
+    </div>
+</div>
+

@@ -1,0 +1,53 @@
+<div class="main-wrapper">
+    <div class="filters-wrapper">
+        <p>{{category}}</p>
+        <ul (click)="navigateToChild(category.firstChildName,category.id)"  *ngFor="let category of categories">
+            <li >{{category.firstChildName}}</li>
+        </ul>
+
+        <p style="margin-top: 30px;">მდებარეობა</p>
+
+        <div *ngFor="let loc of locations" class="flex items-center">
+            <p-checkbox
+              [inputId]="loc.id"
+              name="group"
+              [value]="loc"
+              [(ngModel)]="selectedLocations" 
+              (onChange)="onLocationChange(loc, selectedLocations)"
+            ></p-checkbox>
+            <label [for]="loc.id" class="ml-2"> {{ loc.location }} </label>
+          </div>
+          
+        
+        
+          
+
+        
+        <div style="margin-top: 20px;" *ngFor="let guest of guestNumber" class="flex items-center">
+            <p-checkbox
+              [inputId]="guest.id"
+              name="guest"
+              [value]="guest"
+              [(ngModel)]="selectedGuest" 
+              (onChange)="clickGuestNumber(guest, selectedGuest)"
+            ></p-checkbox>
+            <label [for]="guest.id" class="ml-2"> {{ guest.guestNumber }} </label>
+          </div>
+          
+    </div>
+    
+
+    <div class="prod-wrapper">
+        <p>{{category}}</p>
+        <div class="products-wrapper">
+            <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
+              <div>
+                <img class="image" [src]="url + item.image" alt="Product Image">
+                <p>{{ item.sec_child_name }}</p>
+                <p>{{ item.description }}</p>
+                <p>{{ item.price }}</p>
+              </div>
+            </div>
+          </div>          
+    </div>
+</div>
