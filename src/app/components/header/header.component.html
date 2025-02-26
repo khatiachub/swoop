@@ -1,1 +1,39 @@
-<p>header works!</p>
+<div class="main-header">
+    <div class="header-box">
+        <img routerLink="/" src="https://www.swoop.ge/icons/swoop_logo.svg" alt="logo">
+        <div class="acc-box">
+            <div (click)="openAccordeon()" class="accordeon-box">
+                <p>კატეგორიები</p>
+                <i *ngIf="!isOpen"  class="pi pi-angle-up acc-icon" ></i>
+                <i *ngIf="isOpen"  class="pi pi-angle-down acc-icon" ></i>
+            </div>
+            <div *ngIf="isOpen" class="accordeon-wrapper">
+                <div class="categories-box" *ngFor="let cat of categories">
+                    <p (mouseenter)="showTooltip(cat.id)" (mouseleave)="showTooltip(cat.id)" class="category-text">{{cat.categoryName}} </p>
+                    <i class="pi pi-angle-right arr-icon" ></i>
+                </div>
+    
+            </div>           
+              <div *ngIf="isTooltipVisible" class="tooltip">
+                <h4>{{categoryText}}</h4>
+                <div *ngFor="let category of childCategories">
+                    <p (click)="navigateToChild(category.categoryName,category.category_ID,category.firstChildName,category.id)" style="margin-top: 15px;">{{category.firstChildName}}</p>
+                </div>
+              </div>
+        </div>
+        <div class="search-box">
+            <i class="pi pi-search search-icon" ></i>
+            <input class="search-input" type="text">
+        </div>
+        
+        <span routerLink="/cart" style="font-size: 25px;" class="pi pi-cart-minus"></span>
+    
+        <div class="login-box">
+            <span class="pi pi-user"></span>
+            <p>შესვლა</p>
+        </div>
+    
+    </div>
+    
+</div>
+<div class="blur-container" *ngIf="isBlur" (click)="clickBlur()"></div>

@@ -16,6 +16,7 @@ import { FilteredItemsComponent } from './pages/filtered-items/filtered-items.co
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChildcategoryComponent } from './pages/childcategory/childcategory.component';
+import { CartComponent } from './pages/cart/cart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { ChildcategoryComponent } from './pages/childcategory/childcategory.comp
     FooterComponent,
     FilteredItemsComponent,
     ChildcategoryComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

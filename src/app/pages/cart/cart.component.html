@@ -1,0 +1,40 @@
+<div class="main-wrapper">
+   <div class="wrapper">
+    <div class="cart-box"  *ngFor="let item of cart">
+        <img class="image"  [src]="url + item.image_path[0]" alt="Main Image">
+        <div class="title-box">
+            <p>{{item.title}}</p>
+            <p>{{item.product_name}}</p>
+            <div>
+                <p></p>
+            </div>
+        </div>
+        <div class="vaucher-box">
+            <p>ვაუჩერი</p>
+            <p>{{item.vaucher_price}}.00 ლ</p>
+           <div>
+            <div class="button-wrapper">
+                <div class="increment-button">
+                    <p (click)="changeQuantity('-')" style="font-size: 20px;">-</p>
+                    <p style="font-size: 20px;">{{item.vaucher_quantity}}</p>
+                    <p (click)="changeQuantity('+')" style="font-size: 20px;">+</p>
+                </div>
+                <i class="pi pi-trash" ></i>
+            </div>
+           </div>
+        </div>
+    </div>
+   </div>
+    <div class="order-box">
+        <h3>შეკვეთის დეტალები</h3>
+        <div class="vaucher">
+            <p>ვაუჩერი({{this.total_quantity}})</p>
+            <p>{{total_price}}.00 ლ</p>
+        </div>
+        <div class="total">
+            <strong>ჯამი</strong>
+            <strong>{{total_price}}.00 ლ</strong>
+        </div>
+        <button class="order-button">შეკვეთა</button>
+    </div>
+</div>

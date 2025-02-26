@@ -1,0 +1,108 @@
+.search-box{
+    position: relative;
+}
+.search-icon{
+    position: absolute;
+    left: 10px;
+    top: 12px;
+
+}
+.search-input{
+    width: 500px;
+    /* width: 100%; */
+    height: 40px;
+   border-radius: 10px;  
+                                                                                                       
+}
+
+.accordeon-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 160px;
+    height: 40px;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+    padding: 10px;
+}
+.login-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+    padding: 10px;
+}
+.header-box{
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    align-items: center;
+    height: 60px;
+}
+
+.main-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    height: 70px;
+    background-color: #fff;
+}
+.accordeon-wrapper{
+    width: 350px;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #a1a1a1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    position: absolute;
+    top: 60px;
+}
+.tooltip{
+    width: 350px;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #a1a1a1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background-color: #fff;
+    position: absolute;
+    top: 60px;
+    left: 350px;
+}
+.acc-box{
+    position: relative;
+}
+.categories-box{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+.category-text{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.arr-icon{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.blur-container{
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 70%;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}

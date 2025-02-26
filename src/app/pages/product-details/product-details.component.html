@@ -1,1 +1,82 @@
-<p>product-details works!</p>
+<div class="details-container">
+  <h3>{{item.title}}</h3>
+  <h3>{{item.product_name}}</h3>
+  <div class="images-container">
+    <div class="main-image-box">
+      <img (click)="clickImage()" class="main-image" [src]="url + images[0]" alt="Main Image">
+    </div>
+
+    <div class="thumbnails-container">
+      <div class="thumbnail-box" *ngFor="let image of images.slice(1); let i = index">
+        <img (click)="clickImage()" class="thumbnail" [src]="url + image" alt="Thumbnail">
+      </div>
+    </div>
+  </div>
+  <div class="product-container">
+    <div style="margin-top: 20px; width: 60%;">
+      <strong style="margin-top: 15px;">საკონტაქტო:</strong>
+      <div class="descr-box">
+        <i class="pi pi-phone"></i>
+        <p>{{item.contact}}</p>
+      </div>
+      <p style="margin-top: 15px;">აღწერა</p>
+      <p class="before-description">{{ getDescriptionParts().before }}</p>
+  
+      <h4 class="offer-text">შეთავაზებაში შედის:</h4>
+  
+      <div class="highlighted-section">
+        <ul class="after-list">
+          <li *ngFor="let item of getDescriptionParts().after.split(';')">
+            {{ item.trim() }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="payment-box">
+      <div class="vaucher-box">
+        <div style="display: flex;width: 100%;justify-content: space-between; padding: 10px;">
+          <p>ვაუჩერი</p>
+          <p>{{item.vaucher}}</p>
+        </div>
+        <div style="display: flex;width: 100%;justify-content: space-between; padding: 10px;">
+          <p>ადგილზე გადახდით {{item.current_price}} ლ     
+          <p style="text-decoration:line-through;">{{item.price}} ლ</p>   
+          <p>{{item.sale}}%</p>
+        </div>
+      </div>
+      <div class="quantity-box">
+        <div class="increment-button">
+          <p (click)="changeQuantity('-')" style="font-size: 20px;">-</p>
+          <p style="font-size: 20px;">{{quantity}}</p>
+          <p (click)="changeQuantity('+')" style="font-size: 20px;">+</p>
+        </div>
+        <button (click)="addToCart()" class="cart-button">კალათაში დამატება</button>
+      </div>
+      <button  class="pay-button">ყიდვა</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="blur" *ngIf="isBlur">
+  <div style="position: relative;">
+    <div class="images-wrapper">
+      <div class="main-slide-box">
+        <span (click)="clickArrow('left')" class="pi pi-arrow-left arrow arrow-left"></span>
+        <img class="main-slide-image" [src]="url + images[currentIndex]" alt="Main Image">
+        <span (click)="clickArrow('right')" class="pi pi-arrow-right arrow  arrow-right"></span>
+      </div>
+
+      <div class="small-images-wrapper">
+        <div class="small-images-box" *ngFor="let image of images; let i = index">
+          <img [ngClass]="{ 'active-border': currentIndex === i }" (click)="clickSlide(i)" class="small-image"
+            [src]="url + image" alt="Thumbnail">
+        </div>
+      </div>
+    </div>
+    <div (click)="removeSlider()" class="x-box">
+      <span class="pi pi-times"></span>
+    </div>
+
+  </div>
+</div>

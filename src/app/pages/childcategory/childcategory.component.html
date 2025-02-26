@@ -15,21 +15,46 @@
             ></p-checkbox>
             <label [for]="loc.id" class="ml-2"> {{ loc.location }} </label>
           </div>
+
+            <div>
+              <input type="radio" id="price1" name="price" value="0-100" (change)="onPriceChange($event)">
+              <label for="price1">0 - 100</label><br>
+            
+              <input type="radio" id="price2" name="price" value="100-200" (change)="onPriceChange($event)">
+              <label for="price2">100 - 200</label><br>  
+            
+              <input type="radio" id="price3" name="price" value="200-300" (change)="onPriceChange($event)">
+              <label for="price3">200 - 300</label><br>
+            
+              <input type="radio" id="price4" name="price" value="300-500" (change)="onPriceChange($event)">
+              <label for="price4">300 - 500</label><br>  
+            
+              <input type="radio" id="price5" name="price" value="500-1000" (change)="onPriceChange($event)">
+              <label for="price5">500 - 1000</label><br>  
+            
+              <input type="radio" id="price6" name="price" value="1000-დან" (change)="onPriceChange($event)">
+              <label for="price6">1000-დან</label><br>  
+            </div>   
+
     </div>
     
-
+<div *ngIf="getDisplayedItems().length === 0" class="no-items">
+    No items found matching the criteria.
+</div>
     <div class="prod-wrapper">
         <p>{{category}}</p>
-        <div class="products-wrapper">
-            <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
-              <div>
+        <div  *ngIf="getDisplayedItems().length >0" class="products-wrapper">
+            <div  class="product-wrapper" *ngFor="let item of getDisplayedItems()">
+              <div  (click)="navigateToChild(item.category_name,item.first_child_name,item.id,item.sec_child_name)">
                 <img class="image" [src]="url + item.image" alt="Product Image">
                 <p>{{ item.sec_child_name }}</p>
                 <p>{{ item.description }}</p>
                 <p>{{ item.price }}</p>
+                <p>{{item.id}}</p>
               </div>
             </div>
           </div>          
     </div>
 </div>
+
 
