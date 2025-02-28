@@ -106,3 +106,17 @@
     top: 0;
     z-index: 10;
 }
+.pi-cart-minus {
+    position: relative; /* Ensure the badge is positioned relative to the cart icon */
+  }
+  
+  .cart-badge {
+    position: absolute; /* Position the badge absolutely */
+    top: -10px; /* Adjust to position the badge on top */
+    left: -10px; /* Adjust to position the badge on the left */
+    background-color: red; /* Badge background color */
+    color: white; /* Badge text color */
+    border-radius: 50%; /* Make the badge circular */
+    padding: 2px 6px; /* Add padding for better appearance */
+    font-size: 12px; /* Adjust font size */
+  }

@@ -14,8 +14,23 @@ export class HeaderComponent implements OnInit  {
   childCategories:any[]=[];
   categoryText:string='';
   isBlur:boolean=false;
+  userid=1;
+  total_quantity=0;
+  added_quantity=0;
   ngOnInit(): void {
-  
+    this.dataService.getBasket(this.userid).subscribe({
+      next: (response) => {
+       console.log(response);
+       response.forEach((item: { total_quantity: number; })=>(this.total_quantity=item.total_quantity))
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+    this.dataService.cartQuantity$.subscribe((quantity) => {
+      this.total_quantity= quantity;   
+    });
+   
   }
   isTooltipVisible: boolean = false;
 
@@ -59,6 +74,7 @@ export class HeaderComponent implements OnInit  {
     );
     this.isTooltipVisible=false;
     this.isOpen=false;
+    this.isBlur=false;
   }
  
   clickBlur():void{

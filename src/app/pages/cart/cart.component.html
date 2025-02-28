@@ -5,8 +5,8 @@
         <div class="title-box">
             <p>{{item.title}}</p>
             <p>{{item.product_name}}</p>
-            <div>
-                <p></p>
+            <div class="price-box">
+                <p>ადგილზე გადახდით: {{item.current_price}}.00 ლ <span style="text-decoration: line-through;">{{item.starting_price}}.00ლ</span></p>
             </div>
         </div>
         <div class="vaucher-box">
@@ -15,11 +15,11 @@
            <div>
             <div class="button-wrapper">
                 <div class="increment-button">
-                    <p (click)="changeQuantity('-')" style="font-size: 20px;">-</p>
+                    <p (click)="updateBasket('-',item.id)" style="font-size: 20px;">-</p>
                     <p style="font-size: 20px;">{{item.vaucher_quantity}}</p>
-                    <p (click)="changeQuantity('+')" style="font-size: 20px;">+</p>
+                    <p (click)="updateBasket('+',item.id)" style="font-size: 20px;">+</p>
                 </div>
-                <i class="pi pi-trash" ></i>
+                <i (click)="deleteFromCart(item.id)" class="pi pi-trash" ></i>
             </div>
            </div>
         </div>

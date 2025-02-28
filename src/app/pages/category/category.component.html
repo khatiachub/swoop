@@ -13,28 +13,28 @@
               name="group"
               [value]="loc"
               [(ngModel)]="selectedLocations" 
-              (onChange)="onLocationChange(loc, selectedLocations)"
+              (onChange)="onLocationChange()"
             ></p-checkbox>
             <label [for]="loc.id" class="ml-2"> {{ loc.location }} </label>
           </div>
           
           <div>
-            <input type="radio" id="price1" name="price" value="0-100" (change)="onPriceChange($event)">
+            <input type="radio" id="price1" name="price" value="0-100" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice" >
             <label for="price1">0 - 100</label><br>
           
-            <input type="radio" id="price2" name="price" value="100-200" (change)="onPriceChange($event)">
+            <input type="radio" id="price2" name="price" value="100-200" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
             <label for="price2">100 - 200</label><br>  
           
-            <input type="radio" id="price3" name="price" value="200-300" (change)="onPriceChange($event)">
+            <input type="radio" id="price3" name="price" value="200-300" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
             <label for="price3">200 - 300</label><br>
           
-            <input type="radio" id="price4" name="price" value="300-500" (change)="onPriceChange($event)">
+            <input type="radio" id="price4" name="price" value="300-500" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
             <label for="price4">300 - 500</label><br>  
           
-            <input type="radio" id="price5" name="price" value="500-1000" (change)="onPriceChange($event)">
+            <input type="radio" id="price5" name="price" value="500-1000" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
             <label for="price5">500 - 1000</label><br>  
           
-            <input type="radio" id="price6" name="price" value="1000-დან" (change)="onPriceChange($event)">
+            <input type="radio" id="price6" name="price" value="1000-დან" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
             <label for="price6">1000-დან</label><br>  
           </div>
         
@@ -47,7 +47,7 @@
               name="guest"
               [value]="guest"
               [(ngModel)]="selectedGuest" 
-              (onChange)="clickGuestNumber(guest, selectedGuest)"
+              (onChange)="clickGuestNumber()"
             ></p-checkbox>
             <label [for]="guest.id" class="ml-2"> {{ guest.guestNumber }} </label>
           </div>

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,10 @@ export class DataserviceService {
   constructor(private http: HttpClient) { }
   private url = "http://localhost:5257/api/Main"
 
+  private cartQuantitySubject = new BehaviorSubject<number>(0); 
+  cartQuantity$ = this.cartQuantitySubject.asObservable();
 
-
+  quantity=0;
   // registration(data: any): Observable<any> { 
   //   return this.http.post(`${this.url}/CreateAdmin`, data);
   // }
@@ -24,27 +26,19 @@ export class DataserviceService {
   getCategories(): Observable<any> {
     return this.http.get(`${this.url}/GetCategories`);
   }
-  getCategory(name: string | null, id: number | null): Observable<any> {
-    return this.http.get(`${this.url}/GetCategories2st/${id}/${name}`);
-  }
+  
   getChildCategories(id: number | null): Observable<any> {
     return this.http.get(`${this.url}/GetCategories1st/${id}`);
   }
-  getFilteredItems(id: number | null, category: null | string, queryParams: any): Observable<any> {
-    let params = new HttpParams();
-    for (const key in queryParams) {
-      if (queryParams[key]) {
-        params = params.set(key, queryParams[key].toString());
-      }
-    }
+  getFilteredItems(id: number | null, category: null | string): Observable<any> {
     const url = `${this.url}/GetFilteredItems/${id}/${category}`;
-    return this.http.get(url, { params });
+    return this.http.get(url);
   }
   getLocations(id: number | null): Observable<any> {
     return this.http.get(`${this.url}/GetLocations/${id}`);
   }
-  getGuestNumber(): Observable<any> {
-    return this.http.get(`${this.url}/GetGuestNumber/`);
+  getGuestNumber(category_id:number|null): Observable<any> {
+    return this.http.get(`${this.url}/GetGuestNumber/${category_id}`);
   }
   getFilteredLocations(id: number | null, queryParams: { [key: string]: string | number | boolean }): Observable<any> {
     let params = new HttpParams();
@@ -61,9 +55,27 @@ export class DataserviceService {
     return this.http.get(`${this.url}/GetProductDescription/${id}`);
   }
   getBasket(id: number | null): Observable<any> {
-    return this.http.get(`${this.url}/GetBasket/${id}`);
+    return this.http.get(`${this.url}/GetBasket/${id}`).pipe(
+      tap((response: any) => {
+        response.forEach((item: { total_quantity: number; })=>(this.quantity=item.total_quantity))
+        this.cartQuantitySubject.next(this.quantity); 
+      })
+    );
   }
   addToBasket(data: any): Observable<any> {
     return this.http.post(`${this.url}/AddToCart`, data);
+  }
+  deletefrombasket(userid:number,productid:number): Observable<any> {
+    return this.http.delete(`${this.url}/deletefromcart/${userid}/${productid}`);
+  }
+  updateCartQuantity(quantity: number) {
+    this.cartQuantitySubject.next(quantity);
+  }
+
+  getCartQuantity(): number {
+    return this.cartQuantitySubject.value;
+  }
+  updateBasket(data: any): Observable<any> {
+    return this.http.put(`${this.url}/updatebasket`, data);
   }
 }

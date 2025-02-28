@@ -204,3 +204,31 @@
     padding: 20px;
     align-items: center;
   }
+  .notification {
+    position: fixed;
+    top: 100px; 
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 300px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    transform: translateX(100%); 
+    opacity: 0;
+  }
+  .notification.show {
+    transform: translateX(0); 
+    transition:0.3s ease-in-out;
+    opacity: 1;
+  }
+  
+  .notification.hide {
+    transform: translateX(100%); 
+    transition:0.3s ease-in-out;
+    opacity: 0;
+  }

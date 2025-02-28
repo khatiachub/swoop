@@ -22,7 +22,7 @@
       <p style="margin-top: 15px;">აღწერა</p>
       <p class="before-description">{{ getDescriptionParts().before }}</p>
   
-      <h4 class="offer-text">შეთავაზებაში შედის:</h4>
+      <h4 class="offer-text">{{matchedKeyword}}</h4>
   
       <div class="highlighted-section">
         <ul class="after-list">
@@ -79,4 +79,7 @@
     </div>
 
   </div>
+</div>
+<div *ngIf="isVisible" class="notification" [class.show]="!isHiding" [class.hide]="isHiding">
+  შეთავაზება დამატებულია
 </div>

@@ -26,7 +26,9 @@
             <input class="search-input" type="text">
         </div>
         
-        <span routerLink="/cart" style="font-size: 25px;" class="pi pi-cart-minus"></span>
+        <span routerLink="/cart" style="font-size: 25px;" class="pi pi-cart-minus">
+              <span class="cart-badge">{{ total_quantity }}</span>
+        </span>
     
         <div class="login-box">
             <span class="pi pi-user"></span>
