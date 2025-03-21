@@ -8,81 +8,83 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './childcategory.component.css'
 })
 export class ChildcategoryComponent implements OnInit {
-  constructor(private dataService: DataserviceService,private route:ActivatedRoute,private router:Router) {}
-  id!:number|null;
-  category!:string|null;
-  items:any[]=[];
-  url="http://localhost:5257/";
-  
-  categories:any[]=[];
-  locations:any[]=[];
-  guestNumber:any[]=[];
-  childname!:string|null;
-  selectedLocations:any[]=[];
-  history_id!:number;
-  selectedGuest: any[] = [];
-  selectedPrice!:any;
-  products:any[]=[];
-  filteredProducts:any[]=[];
+  constructor(private dataService: DataserviceService, private route: ActivatedRoute, private router: Router) { }
+  id!: number | null;
+  category!: string | null;
+  items: any[] = [];
+  url = "http://localhost:5257/";
 
-  navigateToChild(categoryname: string,firstchild:string, id: number,secchild:string): void {
+  categories: any[] = [];
+  locations: any[] = [];
+  guestNumber: any[] = [];
+  childname!: string | null;
+  selectedLocations: any[] = [];
+  history_id!: number;
+  selectedGuest: any[] = [];
+  selectedPrice!: any;
+  products: any[] = [];
+  filteredProducts: any[] = [];
+  price_array:string[]=["0 - 100","100 - 200","200 - 300","300 - 500"," 500 - 1000", "1000 - დან"];
+
+  navigateToChild(categoryname: string, firstchild: string, id: number, secchild: string): void {
     this.router.navigate(
       [`productdetails/${categoryname}/${firstchild}/${id}/${secchild}`],
       { state: { id: id } }
-    ); 
+    );
   }
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.id = Number(params.get('id'));
       this.category = params.get('category');
-      this.childname= params.get('childcategory');
+      this.childname = params.get('childcategory');
     });
-    this.history_id=history.state.id;
+    this.history_id = history.state.id;
 
-    
-    this.dataService.getFilteredItems(this.id,this.category).subscribe({
-      next: (response) => {            
-         this.products=response;
-         this.filteredProducts=[...this.products]
+
+    this.dataService.getFilteredItems(this.id, this.category).subscribe({
+      next: (response) => {
+        this.products = response.filter((item: { first_child_name: string | null; }) => (item.first_child_name === this.childname))
+        this.filteredProducts = [...this.products];
       },
       error: (error) => {
-        console.log(error);   
-      },      
+        console.log(error);
+      },
     });
 
-    const idParams :{ [key: string]: string | number | boolean }= {
-      Id: this.history_id|| '',
+    const idParams: { [key: string]: string | number | boolean } = {
+      Id: this.history_id || '',
     };
     const filteredIdParams = Object.keys(idParams)
-    .filter((key) => idParams[key] !== '')
-    .reduce((acc, key) => ({ ...acc, [key]: idParams[key] }), {});
-    this.dataService.getFilteredLocations(this.id,filteredIdParams).subscribe({
+      .filter((key) => idParams[key] !== '')
+      .reduce((acc, key) => ({ ...acc, [key]: idParams[key] }), {});
+    this.dataService.getFilteredLocations(this.id, filteredIdParams).subscribe({
       next: (response) => {
         console.log(response);
-        
-        this.locations=response ;    
+
+        this.locations = response;
         console.log(this.locations);
-              
+
       },
       error: (error) => {
-        console.log(error);   
+        console.log(error);
       },
     });
   }
-  
-  onPriceChange(event: Event): void {
-    this.filterProducts();
 
+  onPriceChange(): void {
+    this.filterProducts();
   }
   onLocationChange() {
     this.filterProducts();
   }
-   
-  filterProducts() {
+
+  filterProducts() {    
     this.filteredProducts = this.products.filter(product => {
       const matchesLocation =
         this.selectedLocations.length === 0 ||
-        this.selectedLocations.some((loc: { id: any; }) => product.location_id===(loc.id));
+        this.selectedLocations.some((loc: {
+          location: any; id: any;
+        }) => product.location === (loc.location));
       let matchesPrice = true;
       if (this.selectedPrice) {
         const [minPrice, maxPrice] = this.selectedPrice.split('-').map(Number);
@@ -97,5 +99,5 @@ export class ChildcategoryComponent implements OnInit {
   getDisplayedItems() {
     return this.filteredProducts;
   }
-  
+
 }

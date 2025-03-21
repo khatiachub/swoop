@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataserviceService } from '../../core/dataservice.service';
 
@@ -8,7 +8,10 @@ import { DataserviceService } from '../../core/dataservice.service';
   styleUrl: './product-details.component.css'
 })
 
+
 export class ProductDetailsComponent implements OnInit {
+  @ViewChild('thumbnailContainer') thumbnailContainer!: ElementRef;
+
   constructor(private dataService: DataserviceService, private route: ActivatedRoute, private router: Router) { }
  
   maincategory:string|null='';
@@ -22,8 +25,16 @@ export class ProductDetailsComponent implements OnInit {
   currentIndex:number=0;
   quantity:number=1;
   userid=1;
+  sliderImages:any[]=[];
+  offerIn:any[]=[];
+  atHotel:any[]=[];
+  menuArray:any[]=[];
+  priceIn:any[]=[];
+  descArray:any[]=[];
+  addInfo:any[]=[];
+  menZone:any[]=[]
+  womenzone:any[]=[];
   changeQuantity(button:string):void{
-    
     if(button==='+'){
       this.quantity+=1
     }
@@ -42,10 +53,10 @@ export class ProductDetailsComponent implements OnInit {
   addToCart():void{
     const newQuantity = this.dataService.getCartQuantity() + this.quantity;
     this.dataService.updateCartQuantity(newQuantity);
-
+    const id = localStorage.getItem("id");
     const data={
       Product_id:this.item.id,
-      User_id:1,
+      User_id:id,
       Quantity:this.quantity
     }
     this.dataService.addToBasket(data).subscribe({
@@ -60,14 +71,14 @@ export class ProductDetailsComponent implements OnInit {
     this.isVisible = true; 
 
     setTimeout(() => {
-      this.isHiding = false; // Now trigger slide-in
+      this.isHiding = false;
     }, 10);
     setTimeout(() => {
-      this.isHiding = true; // Start sliding out
+      this.isHiding = true; 
       setTimeout(() => {
-        this.isVisible = false; // Remove from DOM after sliding out
-      }, 500); // Wait for slide-out animation to finish
-    }, 3000); // Slide out after 3 seconds
+        this.isVisible = false; 
+      }, 500); 
+    }, 3000); 
   
   }
 
@@ -80,11 +91,23 @@ export class ProductDetailsComponent implements OnInit {
   }
   clickArrow(side: string) {
     if (side === 'left') {
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.currentIndex = (this.currentIndex - 1 + this.sliderImages.length) % this.sliderImages.length;
     } else if (side === 'right') {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.currentIndex = (this.currentIndex + 1) % this.sliderImages.length;
+    }
+    this.scrollToThumbnail(this.currentIndex); // Pass correct index
+
+  }
+  scrollToThumbnail(index: number) {
+    if (!this.thumbnailContainer) return; // Ensure ViewChild is available
+    const container = this.thumbnailContainer.nativeElement;
+    const selectedThumb = container.children[index];
+  
+    if (selectedThumb) {
+      container.scrollLeft = selectedThumb.offsetLeft - container.offsetLeft - 10;
     }
   }
+  
 
   clickSlide(index: number) {
     this.currentIndex = index;
@@ -104,7 +127,17 @@ export class ProductDetailsComponent implements OnInit {
         this.item = response;
         console.log(this.item);
         console.log(response);
-        this.images=response.image_path;
+        this.sliderImages=response.image_path
+        this.images = response.image_path.slice(0, 5);
+        this.offerIn = this.item.offerin.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+        this.priceIn = this.item.pricein.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+        this.atHotel = this.item.athotel.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+        this.menuArray = this.item.menu.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+        this.descArray = this.item.description.split('.', 2).map((sentence: string) => sentence.trim());
+        this.addInfo= this.item.addinfo.split('.').map((sentence: string) => sentence.trim());
+        this.menZone = this.item.menzone.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+        this.womenzone = this.item.womenzone.split('.').map((line: string) => line.trim()).filter((line: any) => line);
+console.log(this.addInfo);
 
       },
       error: (error) => {
@@ -118,9 +151,7 @@ export class ProductDetailsComponent implements OnInit {
   matchedKeyword='';
   getDescriptionParts(): { before: string, after: string } {
     const fullText = this.item.full_Description;
-
     let keywordIndex = -1;
-
     for (const keyword of this.keywords) {
       keywordIndex = fullText.indexOf(` ${keyword} `); 
       if (keywordIndex === -1) {

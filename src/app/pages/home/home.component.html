@@ -1,19 +1,114 @@
-<div class="home-main-wrapper">
-    <div class="icons">
-        <i class="fa-solid fa-clapperboard icon"></i>
-        <i class="fa-solid fa-bed icon"></i>
-        <i class="fa-solid fa-champagne-glasses icon"></i>
-        <i class="fa-solid fa-burger icon"></i>
-        <i class="fa-regular fa-face-grin-stars icon"></i>
-        <i class="fa-solid fa-dumbbell icon"></i>
-        <i class="fa-solid fa-hospital-user icon"></i>
-        <i class="fa-solid fa-hand-holding-heart icon"></i>
-        <i class="fa-solid fa-paw icon"></i>
+<div class="main-img-container">
+    <div class="slider-container">
+        <div class="arrow-icon left" (click)="prevSlide()">
+            <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="slider-wrapper" [style.transform]="'translateX(' + (-index * 100) + '%)'">
+            <img *ngFor="let img of urls; let i = index" class="slider-image" [src]="img.url" alt="">
+        </div>
+        <div class="arrow-icon right" (click)="nextSlide()">
+            <i class="pi pi-angle-right"></i>
+        </div>
     </div>
-    <div class="categories-box">
-        <div (click)="getCategory(category.categoryName,category.id)" class="category-cell"  *ngFor="let category of categories">
-            <div class="category-text">
-                {{category.categoryName}}
+    <div class="small-images-container">
+        <img routerLink="/category/62/გართობა" class="small-image"
+            src="https://cdn.swoop.ge/ImagesStorage/bb2d9dc8-6a03-4d6f-ad65-ebf82aeeda72.png" alt="img1">
+        <img routerLink="/category/65/სპორტი" class="small-image"
+            src="https://cdn.swoop.ge/ImagesStorage/da7b33df-3cdf-462c-bc51-ccd679b2c7ce.png" alt="">
+        <img routerLink="/category/65/სპორტი/კარტინგები" class="small-image"
+            src="https://cdn.swoop.ge/ImagesStorage/e25b0453-5146-4c0a-a4f5-385c6504b094.png" alt="">
+        <img routerLink="/category/64/საბავშვო/ბავშვთა გასართობი ცენტრი" class="small-image"
+            src="https://cdn.swoop.ge/ImagesStorage/6b71665b-11bb-485d-abee-ea727bf899d8.png" alt="">
+    </div>
+</div>
+
+<div class="icons-wrapper">
+    <h2>სპეციალური შეთავაზებები</h2>
+    <div class="icons-box">
+        <div class="arrow-icons" (click)="prev()">
+            <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="arrow-icons" (click)="next()">
+            <i class="pi pi-angle-right"></i>
+        </div>
+    </div>
+</div>
+<div class="sliders-container">
+    <div class="slider-wrapper" [style.transform]="'translateX(' + (-i * 25) + '%)'">
+        <div class="slider-item" *ngFor="let item of products">
+            <img class="image" [src]="url + item.image_path[0]" alt="Product Image">
+            <p class="product-title">{{ item.title }}</p>
+            <p class="product-desc">{{ item.product_name }}</p>
+            <div class="product-price-box">
+                <p style="font-weight: bold;">{{ item.current_price }}₾</p>
+                <p style="text-decoration: line-through; color: rgb(105, 105, 105);">{{ item.price }}₾</p>
+                <div class="sale-box">
+                    <p>-{{ item.sale }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="add-container">
+    <img (click)="navigateToCategory('img1')" class="add-image"
+        src="https://cdn.swoop.ge/ImagesStorage/639c6094-5cc8-43d1-abb0-d0bd363b2d22.png" alt="">
+    <img (click)="navigateToCategory('img2')" class="add-image"
+        src="https://cdn.swoop.ge/ImagesStorage/381cb958-7bfa-4638-ba87-dd8ebb9f772a.png" alt="">
+</div>
+
+<div class="icons-wrapper">
+    <h2>მხოლოდ Swoop-ზე</h2>
+    <div class="icons-box">
+        <div class="arrow-icons" (click)="prev()">
+            <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="arrow-icons" (click)="next()">
+            <i class="pi pi-angle-right"></i>
+        </div>
+    </div>
+</div>
+<div class="sliders-container">
+    <div class="slider-wrapper" [style.transform]="'translateX(' + (-i * 25) + '%)'">
+        <div class="slider-item" *ngFor="let item of products">
+            <img class="image" [src]="url + item.image_path[0]" alt="Product Image">
+            <p class="product-title">{{ item.title }}</p>
+            <p class="product-desc">{{ item.product_name }}</p>
+            <div class="product-price-box">
+                <p style="font-weight: bold;">{{ item.current_price }}₾</p>
+                <p style="text-decoration: line-through; color: rgb(105, 105, 105);">{{ item.price }}₾</p>
+                <div class="sale-box">
+                    <p>-{{ item.sale }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="icons-wrapper">
+    <h2>გადაიხადე დაბადების დღე</h2>
+    <div class="icons-box">
+        <div class="arrow-icons" (click)="prev()">
+            <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="arrow-icons" (click)="next()">
+            <i class="pi pi-angle-right"></i>
+        </div>
+    </div>
+</div>
+<div class="sliders-container">
+    <div class="slider-wrapper" [style.transform]="'translateX(' + (-i * 25) + '%)'">
+        <div class="slider-item" *ngFor="let item of products">
+            <img class="image" [src]="url + item.image_path[0]" alt="Product Image">
+            <p class="product-title">{{ item.title }}</p>
+            <p class="product-desc">{{ item.product_name }}</p>
+            <div class="product-price-box">
+                <p style="font-weight: bold;">{{ item.current_price }}₾</p>
+                <p style="text-decoration: line-through; color: rgb(105, 105, 105);">{{ item.price }}₾</p>
+                <div class="sale-box">
+                    <p>-{{ item.sale }}%</p>
+                </div>
             </div>
         </div>
     </div>

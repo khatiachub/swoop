@@ -11,17 +11,30 @@ export class CartComponent implements OnInit {
   constructor(private dataService: DataserviceService, private route: ActivatedRoute, private router: Router) { }
   cart:any[]=[];
   url = "http://localhost:5257/";
-  userid=1;
+  userid:number|null=0;
   quantity:number=0;
   total_quantity:number=0;
   total_price:number=0;
   vaucher_quantity=0;
+  cartArray:any[]=[];
+  vaucher_current_price:number|null=null;
   ngOnInit(): void {
+    if(localStorage.getItem("id")){
+      this.userid=Number(localStorage.getItem("id"));
+    }
+    console.log(this.userid);
+    
     this.dataService.getBasket(this.userid).subscribe({
       next: (response) => {
        console.log(response);
        this.cart=response;
-       this.cart.forEach((item)=>(this.vaucher_quantity=item.vaucher_quantity,this.total_quantity=item.total_quantity,this.total_price=item.total_price))
+       this.cart.forEach((item) => {
+        console.log(item);
+        // item.vaucher_quantity = item.vaucher_quantity;
+        this.total_quantity = item.total_quantity;
+        this.total_price = item.total_price;
+      });
+      
       },
       error: (error) => {
         console.log(error);
@@ -32,23 +45,26 @@ export class CartComponent implements OnInit {
   updateBasket(button:string,id:number):void{
     this.data={
       product_id:id,
-      user_id:1,
+      user_id:this.userid,
       quantity:0
     };
     const item = this.cart.find(p => p.id === id);
+    
     if (!item) return;
     if(button==='+'){      
     this.dataService.updateCartQuantity(this.total_quantity+=1);    
-    this.data.quantity =item.vaucher_quantity+=1
+    this.data.quantity =item.vaucher_quantity+=1;
+    console.log(item);
+    this.total_price+=item.vaucher_price;
+    
     }
-    else if(button==='-'){
-      if(this.vaucher_quantity===1){
-        return
-      }else{
-        this.dataService.updateCartQuantity(this.total_quantity-=1);
-        this.data.quantity =item.vaucher_quantity-=1
-      }
-    }
+    else if(button==='-'&&item.vaucher_quantity===1){      
+      return
+    }else{
+    this.dataService.updateCartQuantity(this.total_quantity-=1);
+    this.data.quantity =item.vaucher_quantity-=1;
+    this.total_price-=item.vaucher_price;
+  }
     this.cart = [...this.cart]; 
 
     

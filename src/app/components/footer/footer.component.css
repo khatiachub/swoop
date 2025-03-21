@@ -1,0 +1,22 @@
+.main-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    padding: 50px;
+    box-sizing: border-box;
+    margin-top: 50px;
+}
+.list-box{
+    list-style: none;
+    margin-top: 20px;
+}
+.list-title{
+    font-weight: bold;
+}
+.li{
+    color: #777777;
+    font-size: 14px;
+    line-height: 1.9;
+}

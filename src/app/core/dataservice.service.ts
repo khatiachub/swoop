@@ -8,30 +8,54 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class DataserviceService {
 
   constructor(private http: HttpClient) { }
-  private url = "http://localhost:5257/api/Main"
+  private url = "http://localhost:5257/api/Product"
+  private userurl = "http://localhost:5257/api/User"
 
   private cartQuantitySubject = new BehaviorSubject<number>(0); 
   cartQuantity$ = this.cartQuantitySubject.asObservable();
 
   quantity=0;
-  // registration(data: any): Observable<any> { 
-  //   return this.http.post(`${this.url}/CreateAdmin`, data);
-  // }
-  // login(data: any): Observable<any> {
-  //   return this.http.post(`${this.url}/LoginAdmin`, data);
-  // }
-  // addQuestion(data: any): Observable<any> {
-  //   return this.http.post(`${this.url}/AddQuestion`, data);
-  // }
+  register(data: any): Observable<any> { 
+    return this.http.post(`${this.userurl}/CreateUser`, data);
+  }
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.userurl}/LoginUser`, data);
+  }
+  getUser(id: number|null): Observable<any> {
+    return this.http.get(`${this.userurl}/GetUser/${id}`);
+  }
+  updateUser(id: number|null,data:any): Observable<any> {
+    return this.http.put(`${this.userurl}/UpdateUser/${id}`,data);
+  }
+  deleteUser(id: number|null): Observable<any> {
+    return this.http.delete(`${this.userurl}/deleteUser/${id}`);
+  }
+
   getCategories(): Observable<any> {
     return this.http.get(`${this.url}/GetCategories`);
   }
-  
+  addCategories(data: any): Observable<any> {
+    return this.http.post(`${this.url}/AddCategories`, data);
+  }
+  addCategoryChild(data: any): Observable<any> {
+    return this.http.post(`${this.url}/AddCategories1Child`, data);
+  }
+  addProduct(data: any,id:number): Observable<any> {
+    return this.http.post(`${this.url}/AddItemDescription/${id}`, data);
+  }
   getChildCategories(id: number | null): Observable<any> {
     return this.http.get(`${this.url}/GetCategories1st/${id}`);
   }
   getFilteredItems(id: number | null, category: null | string): Observable<any> {
     const url = `${this.url}/GetFilteredItems/${id}/${category}`;
+    return this.http.get(url);
+  }
+  getSearchedProducts(productName:string): Observable<any> {
+    const url = `${this.url}/GetSearchedProducts/${productName}`;
+    return this.http.get(url);
+  }
+  getProducts(): Observable<any> {
+    const url = `${this.url}/GetProducts/`;
     return this.http.get(url);
   }
   getLocations(id: number | null): Observable<any> {
@@ -65,7 +89,7 @@ export class DataserviceService {
   addToBasket(data: any): Observable<any> {
     return this.http.post(`${this.url}/AddToCart`, data);
   }
-  deletefrombasket(userid:number,productid:number): Observable<any> {
+  deletefrombasket(userid:number|null,productid:number): Observable<any> {
     return this.http.delete(`${this.url}/deletefromcart/${userid}/${productid}`);
   }
   updateCartQuantity(quantity: number) {

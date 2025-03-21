@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DataserviceService } from '../../core/dataservice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,34 +10,38 @@ import { CommonModule } from '@angular/common';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent implements OnInit {
-  constructor(private dataService: DataserviceService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private cdRef: ChangeDetectorRef,private dataService: DataserviceService, private route: ActivatedRoute, private router: Router) { }
 
   id!: number | null;
   category!: string | null;
   items: any[] = [];
   url = "http://localhost:5257/";
-  
+  currentCategoryId!: number;
+  price_array:string[]=["0 - 100","100 - 200","200 - 300","300 - 500"," 500 - 1000", "1000 - დან"];
   categories: any[] = [];
   locations: any[] = [];
   guestNumber: any[] = [];
-  filteredProducts:any[]=[];
-  products:any[]=[];
+  filteredProducts: any[] = [];
+  products: any[] = [];
   selectedLocations: any = [];
   selectedGuest: any[] = [];
-  selectedPrice!:any;
+  selectedPrice!: any;
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
       this.category = params.get('category');
-    });
-    
-    
-    this.dataService.getFilteredItems(this.id,this.category).subscribe({
+    });    
+
+    console.log(this.id, this.category);
+
+    this.dataService.getFilteredItems(this.id, this.category).subscribe({
       next: (response) => {
-      this.products=response;
-       this.filteredProducts=[...this.products]
-        console.log(this.filteredProducts);
-        
+        this.products = response;
+        this.filteredProducts = [...this.products]
+        const imt=response.map((img: { image_path: any; })=>(img.image_path
+        ))
+        console.log(imt);
+
       },
       error: (error) => {
         console.log(error);
@@ -56,8 +60,8 @@ export class CategoryComponent implements OnInit {
     this.dataService.getLocations(this.id).subscribe({
       next: (response) => {
         response.map((loc: { isSelected: any; }) => (loc.isSelected = false))
-         const seenLocations = new Set<string>();
-         const data=response.map((item: { location:string }) => {
+        const seenLocations = new Set<string>();
+        const data = response.map((item: { location: string }) => {
           if (seenLocations.has(item.location)) {
             return { ...item, location: "" };
           } else {
@@ -65,8 +69,8 @@ export class CategoryComponent implements OnInit {
             return item;
           }
         });
-        const filtereddata=data.filter((item: { location: string; })=>(item.location!==''))
-        this.locations =filtereddata;
+        const filtereddata = data.filter((item: { location: string; }) => (item.location !== ''))
+        this.locations = filtereddata;
 
       },
       error: (error) => {
@@ -83,17 +87,15 @@ export class CategoryComponent implements OnInit {
         console.log(error);
       },
     });
+
   }
 
-  navigateToProduct(categoryname:string,firstchild:string, id: number,secchild:string): void {
+
+  navigateToProduct(categoryname: string, firstchild: string, id: number, secchild: string): void {
     this.router.navigate(
       [`productdetails/${categoryname}/${firstchild}/${id}/${secchild}`],
       { state: { id: id } }
-    );    
-    console.log(categoryname,firstchild,id,secchild);
-    console.log(categoryname);
-    
-    
+    );
   }
 
   navigateToChild(childname: string, id: number): void {
@@ -104,10 +106,9 @@ export class CategoryComponent implements OnInit {
   }
   selectedGuests: any[] = [];
   LocId: any[] = [];
- 
-  onPriceChange(event: Event): void {
-    this.filterProducts();
 
+  onPriceChange(): void {
+    this.filterProducts();
   }
   onLocationChange() {
     this.filterProducts();
@@ -119,11 +120,13 @@ export class CategoryComponent implements OnInit {
     this.filteredProducts = this.products.filter(product => {
       const matchesLocation =
         this.selectedLocations.length === 0 ||
-        this.selectedLocations.some((loc: { id: any; }) => product.location_id===(loc.id));
+        this.selectedLocations.some((loc: {
+          location: any; id: any;
+        }) => product.location === (loc.location));
 
       const matchesGuest =
         this.selectedGuest.length === 0 ||
-        this.selectedGuest.some(g => product.guest_id===(g.id));
+        this.selectedGuest.some(g => product.guest_id === (g.id));
 
       let matchesPrice = true;
       if (this.selectedPrice) {

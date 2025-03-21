@@ -1,4 +1,4 @@
-<div class="main-wrapper">
+<div  class="main-wrapper">
    <div class="wrapper">
     <div class="cart-box"  *ngFor="let item of cart">
         <img class="image"  [src]="url + item.image_path[0]" alt="Main Image">
@@ -6,12 +6,12 @@
             <p>{{item.title}}</p>
             <p>{{item.product_name}}</p>
             <div class="price-box">
-                <p>ადგილზე გადახდით: {{item.current_price}}.00 ლ <span style="text-decoration: line-through;">{{item.starting_price}}.00ლ</span></p>
+                <p>ადგილზე გადახდით: {{item.current_price*item.vaucher_quantity}}.00 ლ <span style="text-decoration: line-through;">{{item.starting_price*item.vaucher_quantity}}.00ლ</span></p>
             </div>
         </div>
         <div class="vaucher-box">
             <p>ვაუჩერი</p>
-            <p>{{item.vaucher_price}}.00 ლ</p>
+            <p>{{item.vaucher_quantity*item.vaucher_price}}.00 ლ</p>
            <div>
             <div class="button-wrapper">
                 <div class="increment-button">

@@ -4,38 +4,90 @@
         <div class="acc-box">
             <div (click)="openAccordeon()" class="accordeon-box">
                 <p>კატეგორიები</p>
-                <i *ngIf="!isOpen"  class="pi pi-angle-up acc-icon" ></i>
-                <i *ngIf="isOpen"  class="pi pi-angle-down acc-icon" ></i>
+                <i *ngIf="!isOpen" class="pi pi-angle-up acc-icon"></i>
+                <i *ngIf="isOpen" class="pi pi-angle-down acc-icon"></i>
             </div>
             <div *ngIf="isOpen" class="accordeon-wrapper">
                 <div class="categories-box" *ngFor="let cat of categories">
-                    <p (mouseenter)="showTooltip(cat.id)" (mouseleave)="showTooltip(cat.id)" class="category-text">{{cat.categoryName}} </p>
-                    <i class="pi pi-angle-right arr-icon" ></i>
+                    <p (mouseenter)="showTooltip(cat.id)" (mouseleave)="showTooltip(cat.id)" class="category-text">
+                        {{cat.categoryName}} </p>
+                    <i class="pi pi-angle-right arr-icon"></i>
                 </div>
-    
-            </div>           
-              <div *ngIf="isTooltipVisible" class="tooltip">
+
+            </div>
+            <div *ngIf="isTooltipVisible" class="tooltip">
                 <h4>{{categoryText}}</h4>
                 <div *ngFor="let category of childCategories">
-                    <p (click)="navigateToChild(category.categoryName,category.category_ID,category.firstChildName,category.id)" style="margin-top: 15px;">{{category.firstChildName}}</p>
+                    <p (click)="navigateToChild(category.categoryName,category.category_ID,category.firstChildName,category.id)"
+                        style="margin-top: 15px;">{{category.firstChildName}}</p>
                 </div>
-              </div>
+            </div>
+            <div *ngIf="isBlur" class="blur" (click)="hideTooltip()"></div>
+
         </div>
-        <div class="search-box">
-            <i class="pi pi-search search-icon" ></i>
-            <input class="search-input" type="text">
+
+        <div class="search-container">
+            <div class="search-box">
+                <i (click)="clickSearch()" class="pi pi-search search-icon"></i>
+                <input #searchInput class="search-input" type="text" (input)="onSearchInput($event)"
+                    (focus)="showContainer()" (blur)="hideContainer()">
+            </div>
+            <div class="dropdown-container" *ngIf="isContainerVisible">
+                <p *ngIf="products.length===0">No Search results...</p>
+                <div class="" *ngFor="let product of products">
+                    <div (click)="navigateToProduct($event,product.category_name,product.first_child_name,product.id,product.sec_child_name)"
+                        class="results-container">
+                        <img class="product-image" [src]="url + product.image_path[0]" alt="Product Image">
+                        <div class="results-box">
+                            <p class="name">{{ product.title }}</p>
+                            <p class="description">{{ product.product_name }}</p>
+                            <div class="product-price-box">
+                                <p style="font-weight: bold;">{{ product.current_price }}₾</p>
+                                <p style="text-decoration: line-through; color: rgb(105, 105, 105);">{{ product.price }}₾
+                                </p>
+                                <p class="sale-box">-{{ product.sale }}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <span routerLink="/cart" style="font-size: 25px;" class="pi pi-cart-minus">
-              <span class="cart-badge">{{ total_quantity }}</span>
+        <div *ngIf="overLay" class="overlay" (click)="hideContainer()"></div>
+        <span (click)="clickCart()" style="font-size: 25px;" class="pi pi-cart-minus">
+            <span class="cart-badge">{{ total_quantity }}</span>
         </span>
-    
-        <div class="login-box">
+        <div class="window" *ngIf="isCartClicked">
+            <p>გთხოვთ შეხვიდეთ სისტემაში</p>
+            <button class="button" routerLink="/login">შესვლა</button>
+        </div>
+
+        <div *ngIf="!userid" routerLink="/login" class="login-box">
             <span class="pi pi-user"></span>
             <p>შესვლა</p>
         </div>
-    
+        <div (click)="navigateToUser()" *ngIf="userid" class="login-box">
+            <p>{{user.name}} {{user.lastname}}</p>
+        </div>
+
     </div>
-    
+
+    <div *ngIf="showCategories" class="header-cat-wrapper">
+        <div class="icons">
+            <i class="fa-solid fa-clapperboard icon"></i>
+            <i class="fa-solid fa-bed icon"></i>
+            <i class="fa-solid fa-champagne-glasses icon"></i>
+            <i class="fa-solid fa-burger icon"></i>
+            <i class="fa-regular fa-face-grin-stars icon"></i>
+            <i class="fa-solid fa-dumbbell icon"></i>
+            <i class="fa-solid fa-hospital-user icon"></i>
+            <i class="fa-solid fa-hand-holding-heart icon"></i>
+            <i class="fa-solid fa-paw icon"></i>
+        </div>
+        <div class="categories-box">
+            <div (click)="getCategory(category.categoryName,category.id)" class="category-cell"
+                *ngFor="let category of categories">
+                {{category.categoryName}}
+            </div>
+        </div>
+    </div>
 </div>
-<div class="blur-container" *ngIf="isBlur" (click)="clickBlur()"></div>

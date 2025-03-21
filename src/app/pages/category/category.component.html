@@ -1,71 +1,82 @@
 <div class="main-wrapper">
-    <div class="filters-wrapper">
-        <p>{{category}}</p>
-        <ul (click)="navigateToChild(category.firstChildName,category.id)"  *ngFor="let category of categories">
-            <li >{{category.firstChildName}}</li>
-        </ul>
+  <div class="filters-wrapper">
+    <p class="title">{{category}}</p>
+    <ul (click)="navigateToChild(category.firstChildName,category.id)" *ngFor="let category of categories">
+      <li class="filter-value">{{category.firstChildName}}</li>
+    </ul>
 
-        <p style="margin-top: 30px;">მდებარეობა</p>
+    <p class="title">მდებარეობა</p>
 
-        <div *ngFor="let loc of locations" class="flex items-center">
-            <p-checkbox
-              [inputId]="loc.id"
-              name="group"
-              [value]="loc"
-              [(ngModel)]="selectedLocations" 
-              (onChange)="onLocationChange()"
-            ></p-checkbox>
-            <label [for]="loc.id" class="ml-2"> {{ loc.location }} </label>
-          </div>
-          
-          <div>
-            <input type="radio" id="price1" name="price" value="0-100" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice" >
-            <label for="price1">0 - 100</label><br>
-          
-            <input type="radio" id="price2" name="price" value="100-200" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
-            <label for="price2">100 - 200</label><br>  
-          
-            <input type="radio" id="price3" name="price" value="200-300" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
-            <label for="price3">200 - 300</label><br>
-          
-            <input type="radio" id="price4" name="price" value="300-500" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
-            <label for="price4">300 - 500</label><br>  
-          
-            <input type="radio" id="price5" name="price" value="500-1000" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
-            <label for="price5">500 - 1000</label><br>  
-          
-            <input type="radio" id="price6" name="price" value="1000-დან" (change)="onPriceChange($event)" [(ngModel)]="selectedPrice">
-            <label for="price6">1000-დან</label><br>  
-          </div>
-        
-          
-
-        
-        <div style="margin-top: 20px;" *ngFor="let guest of guestNumber" class="flex items-center">
-            <p-checkbox
-              [inputId]="guest.id"
-              name="guest"
-              [value]="guest"
-              [(ngModel)]="selectedGuest" 
-              (onChange)="clickGuestNumber()"
-            ></p-checkbox>
-            <label [for]="guest.id" class="ml-2"> {{ guest.guestNumber }} </label>
-          </div>
-          
+    <div class="filter-wrapper">
+      <div *ngFor="let loc of locations" class="flex items-center">
+        <p-checkbox class="filter-value" [inputId]="loc.id" name="group" [value]="loc" [(ngModel)]="selectedLocations"
+          (onChange)="onLocationChange()"></p-checkbox>
+        <label [for]="loc.id" class="filter-value left"> {{ loc.location }} </label>
+      </div>
     </div>
-    
 
-    <div class="prod-wrapper">
-        <p>{{category}}</p>
-        <div class="products-wrapper">
-            <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
-              <div (click)="navigateToProduct(item.category_name,item.first_child_name,item.id,item.sec_child_name)">
-                <img class="image" [src]="url + item.image" alt="Product Image">
-                <p>{{ item.sec_child_name }}</p>
-                <p>{{ item.description }}</p>
-                <p>{{ item.price }}</p>
-              </div>
+    <p class="title">ფასი</p>
+
+    <div class="filter-wrapper">
+      <div *ngFor="let price of price_array; let i = index">
+        <input 
+          class="filter-value" 
+          type="radio" 
+          [id]="'price' + i" 
+          name="price" 
+          [value]="price" 
+          [(ngModel)]="selectedPrice"
+          (change)="onPriceChange()" 
+          >
+        <label class="filter-value left" [for]="'price' + i">{{ price }}</label><br>
+      </div>
+    </div>
+
+
+
+    <p class="title">სტუმრების რაოდენობა</p>
+
+    <div class="filter-wrapper">
+      <div *ngFor="let guest of guestNumber">
+        <p-checkbox class="filter-value" [inputId]="guest.id" name="guest" [value]="guest" [(ngModel)]="selectedGuest"
+          (onChange)="clickGuestNumber()"></p-checkbox>
+        <label class="filter-value left" [for]="guest.id"> {{ guest.guestNumber }} </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="prod-wrapper">
+    <div class="router-wrapper">
+      <p routerLink="/">მთავარი</p>
+      <i class="pi pi-angle-right"></i>
+      <p [routerLink]="['/category', id, category]">{{ category }}</p>
+    </div>
+    <div class="title-box">
+      <p class="head">{{category}}</p>
+      <div class="router-wrapper">
+        <p>დალაგება</p>
+        <i class="pi pi-angle-down"></i>
+      </div>
+    </div>
+    <div *ngIf="getDisplayedItems().length === 0" class="no-items">
+      No items found matching the criteria.
+    </div>
+    <div class="products-wrapper">
+      <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
+        <div (click)="navigateToProduct(item.category_name,item.first_child_name,item.id,item.sec_child_name)">
+          <img class="image" [src]="url + item.image_path[0]" alt="Product Image">
+          <p class="product-title">{{ item.title }}</p>
+          <p class="product-desc">{{ item.product_name }}</p>
+          <div class="product-price-box">
+            <p style="font-weight: bold;">{{ item.current_price }}₾</p>
+            <p style="text-decoration: line-through; color: rgb(105, 105, 105);">{{ item.price }}₾</p>
+            <div class="sale-box">
+              <p>-{{ item.sale }}%</p>
             </div>
-          </div>          
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

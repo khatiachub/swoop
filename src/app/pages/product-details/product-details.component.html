@@ -1,6 +1,6 @@
 <div class="details-container">
-  <h3>{{item.title}}</h3>
-  <h3>{{item.product_name}}</h3>
+  <p class="title">{{item.title}}</p>
+  <p class="name">{{item.product_name}}</p>
   <div class="images-container">
     <div class="main-image-box">
       <img (click)="clickImage()" class="main-image" [src]="url + images[0]" alt="Main Image">
@@ -19,29 +19,50 @@
         <i class="pi pi-phone"></i>
         <p>{{item.contact}}</p>
       </div>
-      <p style="margin-top: 15px;">აღწერა</p>
-      <p class="before-description">{{ getDescriptionParts().before }}</p>
+      <p class="desc" >აღწერა</p>
+      <div class="before-description">
+        <span class="bold-text">{{ descArray[0] }}.</span> 
+        <p>{{ descArray[1] }}</p>
+      </div>
+      
   
-      <h4 class="offer-text">{{matchedKeyword}}</h4>
-  
+      <p class="desc">შეთავაზებაში შედის</p>  
       <div class="highlighted-section">
         <ul class="after-list">
-          <li *ngFor="let item of getDescriptionParts().after.split(';')">
-            {{ item.trim() }}
+          <li *ngFor="let offer of offerIn">
+            {{ offer }}
           </li>
         </ul>
+        
       </div>
+      <p *ngIf="item.athotel" class="desc">სასტუმროში დაგხვდებათ</p>
+      <div class="highlighted-section">
+      <ul *ngIf="item.athotel" class="after-list">
+        <li *ngFor="let hotel of atHotel">
+          {{ hotel }}
+        </li>
+      </ul>
+     </div>
+     <div class="before-description">
+      <div *ngFor="let info of addInfo; let i = index; let last = last">
+        <p [ngClass]="{ 'bold-text': !last }" style="line-height: 2;margin-top: 10px;">{{ info }}</p>
+      </div>
+    </div>
+    
     </div>
     <div class="payment-box">
       <div class="vaucher-box">
-        <div style="display: flex;width: 100%;justify-content: space-between; padding: 10px;">
-          <p>ვაუჩერი</p>
-          <p>{{item.vaucher}}</p>
+        <div class="box1">
+          <p style="font-weight: 600;">ვაუჩერი</p>
+          <p style="font-size: 13px; color: #7c7c7c;">ადგილზე გადახდით</p>  
+         <div class="price">
+          <p style="font-weight: 600;">{{item.current_price}} ₾ </p>
+          <p style="text-decoration:line-through;margin-left: 10px;color: #7c7c7c;">{{item.price}} ₾</p>   
+         </div>
         </div>
-        <div style="display: flex;width: 100%;justify-content: space-between; padding: 10px;">
-          <p>ადგილზე გადახდით {{item.current_price}} ლ     
-          <p style="text-decoration:line-through;">{{item.price}} ლ</p>   
-          <p>{{item.sale}}%</p>
+        <div class="box2">
+          <p style="font-weight: 600;">{{item.vaucher}}.00 ₾</p>
+          <div class="sale">{{item.sale}}%</div>
         </div>
       </div>
       <div class="quantity-box">
@@ -63,12 +84,12 @@
     <div class="images-wrapper">
       <div class="main-slide-box">
         <span (click)="clickArrow('left')" class="pi pi-arrow-left arrow arrow-left"></span>
-        <img class="main-slide-image" [src]="url + images[currentIndex]" alt="Main Image">
+        <img class="main-slide-image" [src]="url + sliderImages[currentIndex]" alt="Main Image">
         <span (click)="clickArrow('right')" class="pi pi-arrow-right arrow  arrow-right"></span>
       </div>
 
-      <div class="small-images-wrapper">
-        <div class="small-images-box" *ngFor="let image of images; let i = index">
+      <div class="small-images-wrapper" #thumbnailContainer>
+        <div class="small-images-box" *ngFor="let image of sliderImages; let i = index">
           <img [ngClass]="{ 'active-border': currentIndex === i }" (click)="clickSlide(i)" class="small-image"
             [src]="url + image" alt="Thumbnail">
         </div>

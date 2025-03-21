@@ -13,10 +13,16 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AuthInterceptor } from './core/interceptor';
 import { FilteredItemsComponent } from './pages/filtered-items/filtered-items.component';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChildcategoryComponent } from './pages/childcategory/childcategory.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { SearchResultsComponent } from './pages/search-results/search-results.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './pages/login/login.component';
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,12 +34,17 @@ import { CartComponent } from './pages/cart/cart.component';
     FilteredItemsComponent,
     ChildcategoryComponent,
     CartComponent,
+    SearchResultsComponent,
+    RegisterComponent,
+    LoginComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CheckboxModule
+    CheckboxModule,
+    ReactiveFormsModule
   ],
 
   providers: [provideClientHydration(),provideHttpClient(),

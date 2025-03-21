@@ -1,7 +1,6 @@
 <div class="main-wrapper">
   <div class="filters-wrapper">
-    <p class="title">{{childname}}</p>
-    <p style="margin-top: 30px;">მდებარეობა</p>
+    <p class="title">მდებარეობა</p>
 
     <div *ngFor="let loc of locations" class="flex items-center">
       <p-checkbox class="filter-value" [inputId]="loc.id" name="group" [value]="loc" [(ngModel)]="selectedLocations"
@@ -26,30 +25,11 @@
       </div>
     </div>
   </div>
-
-  
   <div class="prod-wrapper">
-    <div class="router-wrapper">
-      <p routerLink="/">მთავარი</p>
-      <i class="pi pi-angle-right"></i>
-      <p [routerLink]="['/category', id, category]">{{ category }}</p>
-      <i class="pi pi-angle-right"></i>
-      <p [routerLink]="['/category', id, category, childname]">{{ childname }}</p>
-    </div>
-    <div class="title-box">
-      <p class="head">{{category}}</p>
-      <div class="router-wrapper">
-        <p>დალაგება</p>
-        <i class="pi pi-angle-down"></i>
-      </div>
-    </div>
-
-    <div *ngIf="getDisplayedItems().length === 0" class="no-items">
-      No items found matching the criteria.
-    </div>
+    <strong>"{{searchQuery}}"</strong>
     <div class="products-wrapper">
       <div class="product-wrapper" *ngFor="let item of getDisplayedItems()">
-        <div (click)="navigateToChild(item.category_name,item.first_child_name,item.id,item.sec_child_name)">
+        <div (click)="navigateToProduct(item.category_name,item.first_child_name,item.id,item.sec_child_name)">
           <img class="image" [src]="url + item.image_path[0]" alt="Product Image">
           <p class="product-title">{{ item.title }}</p>
           <p class="product-desc">{{ item.product_name }}</p>

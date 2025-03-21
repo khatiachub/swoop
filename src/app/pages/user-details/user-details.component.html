@@ -1,0 +1,181 @@
+<div class="main-wrapper" *ngIf="role==='admin'">
+    <div class="categories-box">
+        <div *ngFor="let category of categories">
+            <div class="accordeon-wrapper">
+                <p>{{category.categoryName}}</p>
+                <i (click)="toggleChildren(category.id)" class="pi"
+                    [ngClass]="expandedCategories.has(category.id) ? 'pi-angle-up' : 'pi-angle-down'">
+                </i>
+            </div>
+            <div class="list-wrapper" *ngIf="isExpanded(category.id)">
+                <div *ngFor="let cat of category.firstChildName">
+                    <li class="list">{{ cat.firstChildName }}</li>
+                </div>
+                <div class="child-box">
+                    <input  class="child-input" type="text" [(ngModel)]="childName">
+                    <button class="child-button" (click)="addChilds(category.categoryName,category.id)">დამატება</button>
+                </div>
+            </div>
+        </div>
+        <input class="category-input" type="text" [(ngModel)]="categoryName">
+        <button class="category-button" (click)="addCategories()">დამატება</button>
+    </div>
+    <div class="item-wrapper">
+            <div class="inputwrapper">
+                <label>კატეგორია</label>
+                <select class="product-input" [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)">
+                    <option *ngFor="let category of categories" [value]="category.id">
+                      {{ category.categoryName }}
+                    </option>
+                </select>
+            </div>
+            <div class="inputwrapper" *ngIf="selectedCategory">
+                <label>კატეგორია</label>
+                <select class="product-input" [(ngModel)]="selectedChildCategory" >
+                    <option *ngFor="let category of selectedChildCategories" [value]="category.id">
+                      {{ category.firstChildName }}
+                    </option>
+                </select>
+            </div>
+            <div class="inputwrapper">
+                <label>პროდუქტის დასახელება</label>
+                <input type="text" class="product-input" [(ngModel)]="productName">
+            </div>
+            
+            <div class="inputwrapper">
+                <label>პროდუქტის აღწერა</label>
+                <input type="text" class="product-input" [(ngModel)]="description">    
+             </div>
+             <div class="inputwrapper" *ngIf="selectedCategory==='41'">
+                <label >სასტუმროში დაგხვდებათ</label>
+               <input  type="text" class="product-input" [(ngModel)]="athotel">
+            </div>
+            <div class="inputwrapper">
+                <label>შეთავაზებაში შედის</label>
+                <input type="text" class="product-input" [(ngModel)]="offerin">
+            </div>
+            <div class="inputwrapper" *ngIf="selectedCategory==='62'||selectedCategory==='65'||selectedCategory==='67'">
+                <label >ღირებულებაში შედის</label>
+                <input type="text" class="product-input" [(ngModel)]="pricein">
+            </div>
+            <div class="inputwrapper" *ngIf="selectedCategory==='63'||selectedCategory==='64'">
+                <label >მენიუ</label>
+                <input type="text" class="product-input" [(ngModel)]="menu">
+            </div>
+            <div class="inputwrapper" *ngIf="selectedCategory==='66'">
+                <label >ქალის ზონა</label>
+                <input type="text" class="product-input" [(ngModel)]="womenzone">
+           </div>
+           <div class="inputwrapper" *ngIf="selectedCategory==='66'">
+            <label >კაცის ზონა</label>
+                <input type="text" class="product-input" [(ngModel)]="menzone">
+            </div>
+            <div class="inputwrapper" *ngIf="selectedCategory==='67'">
+                <label >კლინიკის კონცეფცია</label>
+                <input type="text" class="product-input" [(ngModel)]="clinicconcept">
+           </div>
+           <div class="inputwrapper">
+            <label >მდებარეობა</label>
+                <input type="text" class="product-input" [(ngModel)]="addinfo">
+           </div>
+           <div class="inputwrapper">
+            <label>პროდუქტის ღირებულება</label>
+                <input type="number" class="product-input" [(ngModel)]="price">
+            </div>
+            <div class="inputwrapper">
+                <label>საკონტაქტო</label>
+                <input type="number" class="product-input" [(ngModel)]="contact">
+           </div>   
+            <div class="inputwrapper">
+                <label>პროდუქტის ადგილმდებარეობა</label>
+                <select class="product-input" [(ngModel)]="selectedLocation" >
+                    <option *ngFor="let loc of selectedLocations" [value]="loc.location">
+                      {{ loc.location }}
+                    </option>
+                  </select>
+              </div>
+              <div class="inputwrapper" *ngIf="selectedGuests.length>0">
+                <label >სტუმრების რაოდენობა</label>
+                <select  class="product-input" [(ngModel)]="selectedGuest" >
+                  <option *ngFor="let guest of selectedGuests" [value]="guest.guestNumber">
+                    {{ guest.guestNumber }}
+                  </option>
+                </select>
+             </div>
+             <div class="inputwrapper">
+                <label>ვაუჩერის ფასი</label>
+                <input type="number" class="product-input" [(ngModel)]="vaucher">
+              </div>
+              <div class="inputwrapper">
+                <label>ფასდაკლება (%)</label>
+                <input type="number" class="product-input" [(ngModel)]="sale">
+              </div>
+              <div class="inputwrapper">
+                <label>სათაური</label>
+                <input type="text" class="product-input" [(ngModel)]="title">
+              </div>
+              <div class="input-wrapper">
+                    <div style="margin-top: 7px;" *ngFor="let file of files; let i = index">
+                        <input class="file-input" type="file" (change)="onFileSelect($event, i)">
+                    </div>
+                  <button class="product-button" (click)="addFile()">ფაილის დამატება</button>
+                </div>
+            <button class="product-button" (click)="addProduct()">დამატება</button>
+        <!-- </form> -->
+    </div>
+    <div class="window" *ngIf="showWindow">
+        <p class="text">პროდუქტი წარმატებით დაემატა შესაბამის კატეგორიაში</p>
+    </div>
+    <div  (click)="LogOut()" class="icons"> 
+        <i class="pi pi-sign-out icon"></i>
+        <p class="text">გასვლა</p>
+    </div>
+</div>
+<div class="main-wrapper" *ngIf="role==='user'">
+    <div class="profile-wrapper">
+        <div class="profile-box">
+            <img src="https://www.swoop.ge/icons/sample_profile.svg" alt="profile logo">
+            <div>
+                <p>{{user.name}} {{user.lastName}}</p>
+                <p>{{user.email}}</p>
+            </div>
+        </div>
+        <div class="icons-wrapper">
+            <div class="icons">
+                <i class="pi pi-user icon"></i>
+                <p class="text">პროფილი</p>
+            </div>
+            <div class="icons">
+                <i class="pi pi-shopping-cart icon"></i>
+                <p class="text">კალათა</p>
+            </div>
+            <div  (click)="LogOut()" class="icons">
+                <i class="pi pi-sign-out icon"></i>
+                <p class="text">გასვლა</p>
+            </div>
+        </div>
+    </div>
+    <div class="form-wrapper">
+        <p>გამარჯობა</p>
+        <h2>{{user.name}} {{user.lastName}}</h2>
+        <form class="form" [formGroup]="updateProfile" action="" (ngSubmit)="onSubmit()">
+            <div class="input-box">
+                <label for="">სახელი</label>
+                <input class="input" type="text" formControlName="name">
+            </div>
+            <div class="input-box">
+                <label for="">გვარი</label>
+                <input class="input" type="text" formControlName="lastname">
+            </div>
+            <div class="input-box">
+                <label for="">იმეილი</label>
+                <input class="input" type="text" formControlName="email">
+            </div>
+            <div class="input-box">
+                <label for="">მობილური</label>
+                <input class="input" type="text" formControlName="mobile">
+            </div>
+            <button class="button" type="submit">შენახვა</button>
+        </form>
+    </div>
+</div>

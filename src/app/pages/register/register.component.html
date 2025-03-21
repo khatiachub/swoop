@@ -1,0 +1,74 @@
+<div class="registration-container">
+    <h2>Register</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+        <label for="name">Name:</label>
+        <input [ngStyle]="{
+            'border-color':
+            registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched
+                ? '#FF6D6D'
+                : '#DEEBFF'
+          }" id="name" type="text" formControlName="name">
+        <p class="error" *ngIf="registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched">
+        Name is required (min 2 chars).
+      </p>
+
+        <label for="lastname">Last Name:</label>
+        <input [ngStyle]="{
+            'border-color':
+            registrationForm.get('lastname')?.invalid && registrationForm.get('lastname')?.touched
+                ? '#FF6D6D'
+                : '#DEEBFF'
+          }" id="lastname" type="text" formControlName="lastname">
+        <p class="error" *ngIf="registrationForm.get('lastname')?.invalid && registrationForm.get('lastname')?.touched">
+        Last name is required (min 2 chars).
+      </p>
+
+        <label for="email">Email:</label>
+        <input [ngStyle]="{
+            'border-color':
+            registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched
+                ? '#FF6D6D'
+                : '#DEEBFF'
+          }" id="email" type="email" formControlName="email">
+        <p class="error" *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+        Enter a valid email.
+      </p>
+
+        <label for="mobile">Mobile:</label>
+        <input [ngStyle]="{
+            'border-color':
+            registrationForm.get('mobile')?.invalid && registrationForm.get('mobile')?.touched
+                ? '#FF6D6D'
+                : '#DEEBFF'
+          }" id="mobile" type="text" formControlName="mobile">
+        <p class="error" *ngIf="registrationForm.get('mobile')?.invalid && registrationForm.get('mobile')?.touched">
+        Enter a valid mobile number.
+      </p>
+  
+        <label for="password">Password:</label>
+        <input [ngStyle]="{
+            'border-color':
+            registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched
+                ? '#FF6D6D'
+                : '#DEEBFF'
+          }" id="password" type="password" formControlName="password">
+        <p class="error" *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+        Password must be at least 6 characters.
+      </p>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input [ngStyle]="{
+        'border-color':
+        registrationForm.get('confirmPassword')?.invalid && registrationForm.get('confirmPassword')?.touched
+            ? '#FF6D6D'
+            : '#DEEBFF'
+      }" id="confirmPassword" type="password" formControlName="confirmPassword">
+        <p class="error"
+            *ngIf="registrationForm.get('confirmPassword')?.invalid&& registrationForm.get('confirmPassword')?.touched">
+            Passwords do not match.
+        </p>
+
+        <button type="submit" >Register</button>
+    </form>
+</div>
